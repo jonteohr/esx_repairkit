@@ -34,11 +34,18 @@ end)
 RegisterNetEvent('esx_repairkit:onUse')
 AddEventHandler('esx_repairkit:onUse', function()
 	local playerPed		= GetPlayerPed(-1)
-	local coords		= GetEntityCoords(palyerPed)
-	local vehicle		= GetClosestVehicle(coords.x, coords.y, coords.z, 4.0, 0, 71)
+	local coords		= GetEntityCoords(playerPed)
 
-	if DoesEntityExist(vehicle) then
-		if not IsPedInAnyVehicle(playerPed, false) then
+	if IsAnyVehicleNearPoint(coords.x, coords.y, coords.z, 5.0) then
+		local vehicle = nil
+
+		if IsPedInAnyVehicle(playerPed, false) then
+			vehicle = GetVehiclePedIsIn(playerPed, false)
+		else
+			vehicle = GetClosestVehicle(coords.x, coords.y, coords.z, 5.0, 0, 71)
+		end
+
+		if DoesEntityExist(vehicle) then
 			if Config.IgnoreAbort then
 				TriggerServerEvent('esx_repairkit:removeKit')
 			end
@@ -65,26 +72,23 @@ AddEventHandler('esx_repairkit:onUse', function()
 				CurrentAction = nil
 				TerminateThisThread()
 			end)
-
-			Citizen.CreateThread(function()
-				Citizen.Wait(0)
-
-				if CurrentAction ~= nil then
-					SetTextComponentFormat('STRING')
-					AddTextComponentString(_U('abort_hint'))
-					DisplayHelpTextFromStringLabel(0, 0, 1, -1)
-
-					if IsControlJustReleased(0, Keys["X"]) then
-						TerminateThread(ThreadID)
-						ESX.ShowNotification(_U('aborted_repair'))
-					end
-				end
-
-			end)
-
-		else
-			ESX.ShowNotification(_U('must_be_outside'))
 		end
+
+		Citizen.CreateThread(function()
+			Citizen.Wait(0)
+
+			if CurrentAction ~= nil then
+				SetTextComponentFormat('STRING')
+				AddTextComponentString(_U('abort_hint'))
+				DisplayHelpTextFromStringLabel(0, 0, 1, -1)
+
+				if IsControlJustReleased(0, Keys["X"]) then
+					TerminateThread(ThreadID)
+					ESX.ShowNotification(_U('aborted_repair'))
+				end
+			end
+
+		end)
 	else
 		ESX.ShowNotification(_U('no_vehicle_nearby'))
 	end
