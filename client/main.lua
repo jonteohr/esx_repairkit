@@ -52,18 +52,20 @@ AddEventHandler('esx_repairkit:onUse', function()
 			TaskStartScenarioInPlace(playerPed, "PROP_HUMAN_BUM_BIN", 0, true)
 
 			Citizen.CreateThread(function()
-				TheadID = GetIdOfThisThread()
+				ThreadID = GetIdOfThisThread()
 				CurrentAction = 'repair'
 
 				Citizen.Wait(Config.RepairTime * 1000)
 
-				SetVehicleFixed(vehicle)
-				SetVehicleDeformationFixed(vehicle)
-				SetVehicleUndriveable(vehicle, false)
-				SetVehicleEngineOn(vehicle, true, true)
-				ClearPedTasksImmediately(playerPed)
+				if CurrentAction ~= nil then
+					SetVehicleFixed(vehicle)
+					SetVehicleDeformationFixed(vehicle)
+					SetVehicleUndriveable(vehicle, false)
+					SetVehicleEngineOn(vehicle, true, true)
+					ClearPedTasksImmediately(playerPed)
 
-				ESX.ShowNotification(_U('finished_repair'))
+					ESX.ShowNotification(_U('finished_repair'))
+				end
 
 				if not Config.IgnoreAbort then
 					TriggerServerEvent('esx_repairkit:removeKit')
@@ -85,6 +87,7 @@ AddEventHandler('esx_repairkit:onUse', function()
 				if IsControlJustReleased(0, Keys["X"]) then
 					TerminateThread(ThreadID)
 					ESX.ShowNotification(_U('aborted_repair'))
+					CurrentAction = nil
 				end
 			end
 
