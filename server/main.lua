@@ -6,7 +6,13 @@ ESX.RegisterUsableItem('repairkit', function(source)
 	local _source = source
 	local xPlayer = ESX.GetPlayerFromId(_source)
 	
-	TriggerClientEvent('esx_repairkit:onUse', _source)
+	if Config.AllowMecano then
+		TriggerClientEvent('esx_repairkit:onUse', _source)
+	else
+		if xPlayer.job.name ~= 'mecano' then
+			TriggerClientEvent('esx_repairkit:onUse', _source)
+		end
+	end
 end)
 
 RegisterNetEvent('esx_repairkit:removeKit')
