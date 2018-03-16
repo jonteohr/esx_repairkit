@@ -1,4 +1,4 @@
-# esx_repairkit
+# esx_repairkit [![Release](https://img.shields.io/github/release/condolent/esx_repairkit.svg)](https://github.com/condolent/esx_repairkit/releases/latest)
 Simple repairkit script for FiveM ESX servers
 
 ### Requirements
