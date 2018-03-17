@@ -22,6 +22,6 @@ AddEventHandler('esx_repairkit:removeKit', function()
 
 	if not Config.InfiniteRepairs then
 		xPlayer.removeInventoryItem('repairkit', 1)
-		TriggerClientEvent(_U('used_kit'))
+		TriggerClientEvent('esx:showNotification', _source, _U('used_kit'))
 	end
 end)
