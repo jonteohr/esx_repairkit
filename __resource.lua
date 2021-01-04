@@ -8,7 +8,7 @@ client_scripts {
 	'client/main.lua',
 	'locales/en.lua',
 	'locales/sv.lua',
-	'locale/de.lua',
+	'locales/de.lua',
 	'config.lua'
 }
 
