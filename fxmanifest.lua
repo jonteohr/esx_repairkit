@@ -1,4 +1,6 @@
-resource_manifest_version '44febabe-d386-4d18-afbe-5e627f4af937'
+fx_version 'cerulean'
+game 'gta5'
+
 
 description 'ESX Repairkit'
 version '1.0.3'
@@ -20,3 +22,7 @@ server_scripts {
 	'locales/de.lua',
 	'config.lua'
 }
+
+shared_script '@es_extended/imports.lua' 
+
+-- Updated by discord:fxmanifest.lua | cfx forums:opulent
